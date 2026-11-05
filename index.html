@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <!-- WHY: this meta tag makes the page fit phone screens (mobile-first). -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Keystone – Hobby planner</title>
+  <meta name="description" content="Know what to buy before you start. AI-powered hobby starter checklist in BDT." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Soft geometric shapes. They sit BEHIND everything (z-index -1, pointer-events none)
+       so they decorate the page but can never block text or clicks. -->
+  <div class="shapes" aria-hidden="true">
+    <span class="shape circle c1"></span>
+    <span class="shape circle c2"></span>
+    <span class="shape hexagon h1"></span>
+    <span class="shape triangle t1"></span>
+    <span class="shape triangle t2"></span>
+    <span class="shape arc a1"></span>
+  </div>
+
+  <!-- NAVBAR: brand on the left, sticker placeholder box on the top-right. -->
+  <header class="navbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-name">Keystone</span>
+    </div>
+    <!-- Official buildathon sticker: required by the rules to be visible near the top (navbar). -->
+    <div class="sticker-box" id="stickerBox"><img src="sticker.jpg" alt="Built for Ostad Presents YUNet AIgnite Buildathon 2026"></div>
+  </header>
+
+  <main class="container">
+    <h1>Hobby planner</h1>
+    <p class="subtitle">Know what to buy before you start</p>
+
+    <!-- INPUT FORM. Using a <form> lets the Enter key submit on phones too. -->
+    <form id="planForm" class="card form-card" autocomplete="off">
+      <label for="hobby">I want to start</label>
+      <input id="hobby" type="text" maxlength="80" placeholder="e.g. Wire and paper craft" required />
+
+      <label for="budget">Budget (BDT)</label>
+      <input id="budget" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 1500" required />
+
+      <div class="btn-row">
+        <button type="submit" id="planBtn" class="btn btn-primary">Plan with AI</button>
+        <button type="button" id="demoBtn" class="btn btn-secondary">Load demo data</button>
+      </div>
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+    </form>
+
+    <!-- Recent saved plans (filled by app.js). Hidden when empty. -->
+    <section id="historyWrap" class="history hidden">
+      <p class="history-title">Your saved plans</p>
+      <div id="history" class="chips"></div>
+    </section>
+
+    <!-- RESULT CARD (hidden until a plan exists). -->
+    <section id="result" class="card result-card hidden">
+      <div class="result-top">
+        <div class="ring-wrap">
+          <svg class="ring" viewBox="0 0 120 120" aria-hidden="true">
+            <circle class="ring-track" cx="60" cy="60" r="52" />
+            <circle class="ring-fill" id="ringFill" cx="60" cy="60" r="52" />
+          </svg>
+          <div class="ring-label">
+            <span id="ringPct">0%</span>
+            <small>Ready</small>
+          </div>
+        </div>
+        <div class="result-info">
+          <h2 id="planTitle">Plan</h2>
+          <p id="ownedCount" class="muted"></p>
+          <p class="money">Total BDT <strong id="totalCost">0</strong></p>
+          <p class="money">Still to buy BDT <strong id="toBuyCost">0</strong></p>
+        </div>
+      </div>
+
+      <div id="warning" class="warning hidden" role="alert"></div>
+
+      <ul id="checklist" class="checklist"></ul>
+
+      <div id="tipsWrap" class="tips hidden">
+        <h3>Beginner tips</h3>
+        <ul id="tips"></ul>
+      </div>
+    </section>
+
+    <p class="footer">AI suggestion. Check prices in your local market before buying.</p>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

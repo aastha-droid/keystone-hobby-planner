@@ -1,0 +1,145 @@
+/* ============================================================
+   Keystone – Hobby planner styles
+   WHY CSS variables: all brand colors live in one place, so the
+   whole theme can change by editing these few lines.
+   ============================================================ */
+:root {
+  --bg: #F8F2FF;      /* page background */
+  --card: #E8D7FF;    /* cards */
+  --accent: #B98CF2;  /* buttons, ring */
+  --text: #3B2A5E;    /* all text */
+  --track: #E0D0F7;   /* ring track, inputs */
+  --pink: #FFCDEB;    /* "need" tags, secondary accent */
+  --warn: #C2307A;    /* warning text (dark pink, readable on pink) */
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+  line-height: 1.45;
+  min-height: 100vh;
+  overflow-x: hidden; /* shapes may poke outside the screen; hide the sideways scroll */
+}
+
+/* ---------- Background shapes ----------
+   position:fixed + z-index:-1 + pointer-events:none = they stay
+   behind content and never block text or taps. Low opacity keeps
+   them soft. */
+.shapes { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+.shape { position: absolute; opacity: 0.35; }
+.circle { border-radius: 50%; background: var(--card); }
+.c1 { width: 220px; height: 220px; top: -70px; left: -80px; }
+.c2 { width: 150px; height: 150px; bottom: 10%; right: -50px; background: var(--pink); opacity: 0.4; }
+/* Hexagon and triangles are made with clip-path (cuts a shape out of a box). */
+.hexagon { width: 120px; height: 104px; background: var(--accent); opacity: 0.18;
+  clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%);
+  top: 38%; left: -30px; }
+.triangle { background: var(--pink); clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+.t1 { width: 110px; height: 96px; top: 14%; right: 6%; opacity: 0.45; }
+.t2 { width: 80px; height: 70px; bottom: 6%; left: 10%; background: var(--accent); opacity: 0.2; }
+/* An arc is just a circle with only a border on part of its edge. */
+.arc { width: 200px; height: 200px; border-radius: 50%; border: 18px solid var(--accent);
+  border-color: var(--accent) transparent transparent transparent; opacity: 0.18;
+  bottom: -90px; left: 30%; }
+
+/* ---------- Navbar ---------- */
+.navbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 16px; max-width: 720px; margin: 0 auto;
+}
+.brand { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 1.2rem; }
+.brand-mark { width: 26px; height: 26px; background: var(--accent);
+  clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%); }
+/* Sticker placeholder (top-right). Swap for an <img> later. */
+.sticker-box {
+  width: 56px; height: 56px; border: 2px dashed var(--accent); border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; color: var(--accent); background: rgba(255,255,255,0.5);
+  overflow: hidden;
+}
+.sticker-box img { width: 100%; height: 100%; object-fit: contain; }
+
+/* ---------- Layout ---------- */
+.container { max-width: 720px; margin: 0 auto; padding: 8px 16px 40px; }
+h1 { font-size: 2rem; margin: 8px 0 0; }
+.subtitle { margin: 2px 0 18px; opacity: 0.8; }
+.card { background: var(--card); border-radius: 24px; padding: 18px; box-shadow: 0 6px 18px rgba(185,140,242,0.25); }
+.hidden { display: none !important; }
+.muted { opacity: 0.75; margin: 2px 0; font-size: 0.9rem; }
+
+/* ---------- Form ---------- */
+label { display: block; font-weight: 600; margin: 10px 0 6px; }
+input[type="text"], input[type="number"] {
+  width: 100%; padding: 12px 16px; border: 2px solid transparent; border-radius: 999px;
+  background: var(--bg); color: var(--text); font-size: 1rem;
+}
+input:focus { outline: none; border-color: var(--accent); }
+.btn-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.btn {
+  border: none; border-radius: 999px; padding: 12px 22px; font-size: 1rem; font-weight: 700;
+  cursor: pointer; color: var(--text); transition: transform .1s, opacity .2s;
+}
+.btn:active { transform: scale(0.97); }
+.btn:disabled { opacity: 0.6; cursor: wait; }
+.btn-primary { background: var(--accent); color: #fff; flex: 1 1 140px; }
+.btn-secondary { background: var(--pink); flex: 1 1 140px; }
+.status { min-height: 1.3em; margin: 10px 4px 0; font-size: 0.92rem; }
+.status.error { color: var(--warn); font-weight: 600; }
+
+/* ---------- History chips ---------- */
+.history { margin: 14px 0 0; }
+.history-title { margin: 0 0 6px; font-size: 0.85rem; opacity: 0.75; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { border: none; border-radius: 999px; padding: 6px 14px; background: var(--track); color: var(--text); cursor: pointer; font-size: 0.85rem; }
+.chip.active { background: var(--accent); color: #fff; }
+
+/* ---------- Result card ---------- */
+.result-card { margin-top: 18px; }
+.result-top { display: flex; align-items: center; gap: 16px; }
+.ring-wrap { position: relative; width: 120px; height: 120px; flex: none; }
+.ring { width: 100%; height: 100%; transform: rotate(-90deg); } /* start the ring at 12 o'clock */
+.ring circle { fill: none; stroke-width: 12; }
+.ring-track { stroke: var(--track); }
+.ring-fill { stroke: var(--accent); stroke-linecap: round; transition: stroke-dashoffset .6s ease; }
+.ring-label { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.ring-label span { font-size: 1.6rem; font-weight: 800; line-height: 1; }
+.ring-label small { opacity: 0.7; }
+.result-info h2 { margin: 0 0 2px; font-size: 1.15rem; }
+.money { margin: 2px 0; }
+
+.warning { margin-top: 14px; background: var(--pink); color: var(--warn); border-radius: 16px; padding: 10px 14px; font-weight: 600; }
+
+/* ---------- Checklist ---------- */
+.checklist { list-style: none; padding: 0; margin: 16px 0 0; display: grid; gap: 8px; }
+.item {
+  display: flex; align-items: center; gap: 12px; background: var(--bg);
+  border-radius: 16px; padding: 10px 14px;
+}
+.item input[type="checkbox"] { width: 22px; height: 22px; accent-color: var(--accent); flex: none; }
+.item-main { flex: 1; min-width: 0; }
+.item-name { font-weight: 600; word-wrap: break-word; }
+.item-why { font-size: 0.78rem; opacity: 0.7; }
+.item-cost { font-weight: 700; white-space: nowrap; }
+.tag-need { background: var(--pink); border-radius: 999px; padding: 2px 10px; font-size: 0.72rem; font-weight: 700; margin-left: 6px; }
+.item.owned .item-name { text-decoration: line-through; opacity: 0.6; }
+
+.tips { margin-top: 16px; }
+.tips h3 { margin: 0 0 6px; }
+.tips ul { margin: 0; padding-left: 20px; font-size: 0.9rem; }
+
+.footer { text-align: center; font-size: 0.85rem; opacity: 0.75; margin-top: 22px; }
+
+@media (min-width: 600px) {
+  h1 { font-size: 2.4rem; }
+}
+
+/* Official sticker: a wide banner image. We fix only the HEIGHT and let the
+   width follow the picture's own shape, so it is never stretched or squashed.
+   On phones 40px keeps the navbar slim but the sticker still readable. */
+.sticker-box:has(img) { width: auto; height: 40px; border: none; background: none; border-radius: 0; }
+.sticker-box img { height: 100%; width: auto; display: block; }
+@media (min-width: 600px) { .sticker-box:has(img) { height: 52px; } }

@@ -1,0 +1,12 @@
+# Netlify settings for Keystone.
+# WHY: "publish = ." serves the project root as the website (plain HTML, no build step).
+# "functions" tells Netlify where our serverless function lives, so it is
+# reachable at /.netlify/functions/ai-hobby.
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[functions]
+  # WHY: Netlify bundles functions with esbuild; Node 18+ has fetch built in,
+  # so we need no npm packages at all.
+  node_bundler = "esbuild"
